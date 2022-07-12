@@ -7,11 +7,8 @@ test:
 build:
 	poetry build
 
-publish:
-	poetry publish --dry-run
-
 package-install:
-	python3 -m pip install --force-reinstall dist/hexlet_code-0.1.0-py3-none-any.whl
+	pip install --user dist/*.whl
 
 lint:
 	poetry run flake8 page_loader

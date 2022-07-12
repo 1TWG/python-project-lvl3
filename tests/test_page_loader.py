@@ -1,5 +1,12 @@
-from page_loader import __version__
+from page_loader import download
+import pathlib, tempfile
 
 
-def test_version():
-    assert __version__ == '0.1.0'
+def test_download():
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        file_path = download('https://ru.hexlet.io/courses', tmpdirname)
+        print(file_path)
+        assert file_path == tmpdirname + '/ru-hexlet-io-courses.html'
+        with open(file_path, 'r') as test_file:
+            temp1 = test_file.read()
+            assert temp1
