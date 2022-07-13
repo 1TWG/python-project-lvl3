@@ -7,11 +7,23 @@ test:
 build:
 	poetry build
 
-package-install:
-	pip install --user dist/*.whl
+publish:
+	poetry publish --dry-run
+
 
 lint:
 	poetry run flake8 page_loader
 
 test-coverage:
 	poetry run pytest --cov=page_loader --cov-report xml
+
+package-install:
+	python3 -m pip install .
+
+package-reinstall:
+	python3 -m pip install --user --force-reinstall dist/*.whl
+
+page-loader:
+	poetry run page_loader https://ru.hexlet.io/courses
+
+
