@@ -26,4 +26,7 @@ package-reinstall:
 page-loader:
 	poetry run page_loader https://snipp.ru/demo/76/index.html
 
+tpage-loader:
+	poetry run page_loader https://ru.hexlet.io/courses
+
 
