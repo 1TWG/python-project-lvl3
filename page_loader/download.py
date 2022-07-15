@@ -35,11 +35,19 @@ def download(url_string, output_path):
     name_of_output_file = make_name(url_string, '.html')
     result = output_path + '/' + name_of_output_file
     soup = BeautifulSoup(response.text, 'html.parser')
+    tag = soup.img
+    print(tag)
     img_link_array = list(soup.find_all('img'))
+    #scipt_link_array = list(soup.find_all('script'))
+    #print(*scipt_link_array, sep='\n')
+    #link_link_array = list(soup.find_all('link'))
+    #print(*link_link_array, sep='\n')
     regex = r"(?<=src=\")(?!http).{1,}(?=\")"
     img_array = find_local_file(img_link_array, regex)
     name_of_output_dir = make_name(url_string, '_files')
-    output_html = make_output_html(soup.prettify(), img_array, name_of_output_dir)
+    output_html = make_output_html(soup.prettify(),
+                                   img_array,
+                                   name_of_output_dir)
     download_img(img_array, url_string, output_path, name_of_output_dir)
     with open(result, 'w') as out_file:
         out_file.write(output_html)
