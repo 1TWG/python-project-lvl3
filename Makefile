@@ -24,9 +24,9 @@ package-reinstall:
 	python3 -m pip install --user --force-reinstall dist/*.whl
 
 page-loader:
-	poetry run page_loader https://snipp.ru/demo/76/index.html
+	poetry run page-loader https://snipp.ru/demo/76/index.html
 
 tpage-loader:
-	poetry run page_loader https://ru.hexlet.io/courses
+	poetry run page-loader https://ru.hexlet.io/courses
 
 

@@ -38,10 +38,10 @@ def download(url_string, output_path):
     tag = soup.img
     print(tag)
     img_link_array = list(soup.find_all('img'))
-    #scipt_link_array = list(soup.find_all('script'))
-    #print(*scipt_link_array, sep='\n')
-    #link_link_array = list(soup.find_all('link'))
-    #print(*link_link_array, sep='\n')
+    # scipt_link_array = list(soup.find_all('script'))
+    # print(*scipt_link_array, sep='\n')
+    # link_link_array = list(soup.find_all('link'))
+    # print(*link_link_array, sep='\n')
     regex = r"(?<=src=\")(?!http).{1,}(?=\")"
     img_array = find_local_file(img_link_array, regex)
     name_of_output_dir = make_name(url_string, '_files')
