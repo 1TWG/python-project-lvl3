@@ -10,12 +10,11 @@ def download(url_string, output_path):
         output_path = os.getcwd()
     response = requests.get(url_string)
     response.raise_for_status()
-    name_of_output_file = output_path + '/' + make_name(url_string, '.html')
-    name_of_output_dir = output_path + '/' + make_name(url_string, '_files')
+    name_of_output_file = output_path + '/' + make_name(url_string)
     soup = BeautifulSoup(response.text, 'html.parser')
-    change_images = make_change(soup, name_of_output_dir, url_string)
-    output_html = make_output_html(soup, change_images)
-    make_dir_and_img(name_of_output_dir, change_images)
+    change_obj = make_change(soup, make_name(url_string, True), url_string)
+    output_html = make_output_html(soup, change_obj)
+    make_dir_and_img(output_path, make_name(url_string, True), change_obj)
     with open(name_of_output_file, 'w') as out_file:
         out_file.write(output_html)
     return name_of_output_file
@@ -24,62 +23,72 @@ def download(url_string, output_path):
 def make_change(soup, name_of_output_dir, url_string):
     domain_regex = r"http\w{0,}:\/\/\S{1,}?\/"
     domain = re.findall(domain_regex, url_string)[0]
-    img_array = make_download_array(soup, 'img')
-    change_img = {i: [name_of_output_dir + '/' + make_name(domain + i, '.png'),
-                      domain + i] for i in img_array}
-    return change_img
+    img_array = make_download_array(soup, 'img', domain)
+    link_array = make_download_array(soup, 'link', domain)
+    script_array = make_download_array(soup, 'script', domain)
+    change_array = img_array + link_array + script_array
+    change_obj = {}
+    for i in change_array:
+        change_obj[i] = [name_of_output_dir + '/' + make_name(domain + i),
+                         domain + i]
+    return change_obj
 
 
-def make_name(url_string, extension):
+def make_download_array(soup, tag, domain):
+    array = list(soup.find_all(tag))
+    if tag == 'img' or tag == 'script':
+        array = [i.get('src').replace(domain, '') for i in array
+                 if (i.get('src') and ('htt' not in str(i.get('src'))
+                                       .replace(domain, '')))]
+    else:
+        array = [i.get('href').replace(domain, '') for i in array
+                 if ('http' not in i.get('href').replace(domain, ''))]
+    return array
+
+
+def make_name(url_string, dir=False):
     result_name = ''
     for i in url_string:
         if i.isalnum():
             result_name += i
         else:
             result_name += ' '
-    result_name = result_name.split()
-    remove_array = [
-        'https',
-        'html',
-        'png',
-        'jpg',
-        'svg'
-    ]
-    for i in remove_array:
-        if i in result_name:
-            result_name.remove(i)
-    result_name = '-'.join(result_name) + extension
+    result_name = result_name.replace('svg', 'png').replace('jpg', 'png')
+    result_name_array = result_name.split()
+    result_name_array.remove('https')
+    if result_name_array[-1] not in 'html, css, jpg, png, svg, js':
+        result_name_array.append('html')
+    if dir:
+        result_name = '-'.join(result_name_array[:-1]) + '_files'
+    else:
+        result_name = '-'.join(result_name_array[:-1]) + \
+                      '.' + \
+                      result_name_array[-1]
     return result_name
 
 
-def make_download_array(soup, tag):
-    img_array = list(soup.find_all(tag))
-    regex = r"(?<=src=\")(?!http).{1,}(?=\")"
-    img_array = [re.findall(regex, str(i))[0] for i in img_array
-                 if re.findall(regex, str(i))]
-    return img_array
-
-
-def make_output_html(soup, change_images):
+def make_output_html(soup, change_obj):
     output_html = str(soup)
-    for i in change_images:
-        output_html = output_html.replace(i, change_images[i][0])
+    for i in change_obj:
+        output_html = output_html.replace(change_obj[i][1], change_obj[i][0]) \
+            .replace(i, change_obj[i][0])
     return BeautifulSoup(output_html, 'html.parser').prettify()
 
 
-def make_dir_and_img(name_of_output_dir, change_images):
+def make_dir_and_img(output_path, dir_name, change_obj):
     try:
-        os.mkdir(name_of_output_dir)
+        os.mkdir(output_path + '/' + dir_name)
     except FileExistsError:
-        shutil.rmtree(name_of_output_dir)
-    os.mkdir(name_of_output_dir)
-    for i in change_images:
-        response = requests.get(change_images[i][1])
+        shutil.rmtree(output_path + '/' + dir_name)
+        os.mkdir(output_path + '/' + dir_name)
+
+    for i in change_obj:
+        response = requests.get(change_obj[i][1])
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError:
             continue
         response.raise_for_status()
-        img_path = change_images[i][0]
-        with open(img_path, 'wb') as out_file:
+        obj_path = output_path + '/' + change_obj[i][0]
+        with open(obj_path, 'wb') as out_file:
             out_file.write(response.content)
