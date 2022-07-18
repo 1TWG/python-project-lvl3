@@ -1,8 +1,16 @@
 import requests
+import logging
 import os
 import re
 import shutil
 from bs4 import BeautifulSoup
+
+
+logging.basicConfig(
+    filename='app.log',
+    filemode='w',
+    format='[%(asctime)s: %(levelname)s] %(message)s'
+)
 
 
 def download(url_string, output_path):
@@ -79,6 +87,7 @@ def make_dir_and_img(output_path, dir_name, change_obj):
     try:
         os.mkdir(output_path + '/' + dir_name)
     except FileExistsError:
+        logging.error('exception FileExistsError')
         shutil.rmtree(output_path + '/' + dir_name)
         os.mkdir(output_path + '/' + dir_name)
 
@@ -87,6 +96,8 @@ def make_dir_and_img(output_path, dir_name, change_obj):
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError:
+            logging.error(f'exception requests.exceptions.HTTPError '
+                          f'to {change_obj[i][1]}')
             continue
         response.raise_for_status()
         obj_path = output_path + '/' + change_obj[i][0]
