@@ -4,20 +4,28 @@ jobs:
   linter-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v2
         with:
           python-version: '3.x'
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install poetry
           pip install flake8
-          poetry install
-      - name: linter-check
+          pip install pytest
+          pip install pytest-cov
+          make install
+      - name: Lint with flake8
+        run: |
+          make lint
+      - name: Test with pytest
         run: |
           make test
-          make lint
   
   coverage:
     runs-on: ubuntu-latest
