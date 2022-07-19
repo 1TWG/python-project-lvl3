@@ -2,7 +2,7 @@ install:
 	poetry install
 
 test:
-	poetry run pytest
+	poetry run pytest --cov=page_loader/tests -vv --cov-report xml
 
 build:
 	poetry build
