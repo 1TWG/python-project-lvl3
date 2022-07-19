@@ -4,6 +4,8 @@ install:
 test:
 	poetry run pytest --cov=page_loader/tests -vv --cov-report xml
 
+.PHONY: install test lint check build
+
 build:
 	poetry build
 
