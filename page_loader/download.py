@@ -4,6 +4,7 @@ import os
 import re
 import shutil
 from bs4 import BeautifulSoup
+from progress.bar import IncrementalBar
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -19,7 +20,7 @@ def download(url_string, output_path):
     response = requests.get(url_string)
     try:
         response.raise_for_status()
-    except requests.exceptions.HTTPError:
+    except Exception:
         logger.error(f'No connection '
                      f'to {url_string}')
         logger.debug(f'exception requests.exceptions.HTTPError '
@@ -98,11 +99,18 @@ def make_dir_and_img(output_path, dir_name, change_obj):
         logger.debug('exception FileExistsError')
         shutil.rmtree(output_path + '/' + dir_name)
         os.mkdir(output_path + '/' + dir_name)
+    bar = IncrementalBar(
+        'Loading',
+        fill='@',
+        suffix='%(percent)d%%',
+        max=len(change_obj)
+    )
     for i in change_obj:
+        bar.next()
         response = requests.get(change_obj[i][1])
         try:
             response.raise_for_status()
-        except requests.exceptions.HTTPError:
+        except Exception:
             logger.error(f'No connection '
                          f'to {change_obj[i][1]}')
             logger.debug(f'exception requests.exceptions.HTTPError '
