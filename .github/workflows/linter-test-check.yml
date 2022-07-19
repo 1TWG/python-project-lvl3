@@ -13,7 +13,7 @@ jobs:
         run: |
           pip install poetry
           pip install flake8
-          make install
+          poetry install
       - name: linter-check
         run: |
           make test
