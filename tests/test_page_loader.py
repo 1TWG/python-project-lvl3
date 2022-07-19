@@ -1,4 +1,5 @@
-import os
+import pytest
+from page_loader.download import KnownError
 
 from page_loader import download
 from page_loader.download import make_output_html
@@ -58,3 +59,14 @@ def test_make_name():
     resul_names = [make_name(i) for i in test_urls]
     assert resul_names == test_names
     assert 'snipp-ru-demo-76-index_files' == make_name('https://snipp.ru/demo/76/index.html', True)
+
+
+def test_unknow_dir():
+    with pytest.raises(KnownError):
+        download('https://ru.hexlet.io/courses', '891877987/DASD48S7D')
+
+
+def test_unknow_url():
+    with pytest.raises(KnownError):
+        with tempfile.TemporaryDirectory() as temp_dir_name:
+            download('https://ru.hexlet.io/4154610615dasd', temp_dir_name)

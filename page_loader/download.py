@@ -5,18 +5,26 @@ import re
 import shutil
 from bs4 import BeautifulSoup
 
-
-logging.basicConfig(
-    filename='app.log',
-    filemode='w',
-    format='[%(asctime)s: %(levelname)s] %(message)s'
-)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logging.basicConfig(format='[%(asctime)s: %(levelname)s] %(message)s')
 
 
 def download(url_string, output_path):
     if not output_path:
         output_path = os.getcwd()
+    if not os.path.exists(output_path):
+        logger.error('This folder does not exist')
+        raise KnownError
     response = requests.get(url_string)
+    try:
+        response.raise_for_status()
+    except requests.exceptions.HTTPError:
+        logger.error(f'No connection '
+                     f'to {url_string}')
+        logger.debug(f'exception requests.exceptions.HTTPError '
+                     f'to {url_string}')
+        raise KnownError
     response.raise_for_status()
     name_of_output_file = output_path + '/' + make_name(url_string)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -87,19 +95,24 @@ def make_dir_and_img(output_path, dir_name, change_obj):
     try:
         os.mkdir(output_path + '/' + dir_name)
     except FileExistsError:
-        logging.error('exception FileExistsError')
+        logger.debug('exception FileExistsError')
         shutil.rmtree(output_path + '/' + dir_name)
         os.mkdir(output_path + '/' + dir_name)
-
     for i in change_obj:
         response = requests.get(change_obj[i][1])
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError:
-            logging.error(f'exception requests.exceptions.HTTPError '
-                          f'to {change_obj[i][1]}')
+            logger.error(f'No connection '
+                         f'to {change_obj[i][1]}')
+            logger.debug(f'exception requests.exceptions.HTTPError '
+                         f'to {change_obj[i][1]}')
             continue
         response.raise_for_status()
         obj_path = output_path + '/' + change_obj[i][0]
         with open(obj_path, 'wb') as out_file:
             out_file.write(response.content)
+
+
+class KnownError(Exception):
+    pass
