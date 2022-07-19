@@ -5,7 +5,6 @@ from page_loader import download
 from page_loader.download import make_output_html
 from page_loader.download import make_change
 from page_loader.download import make_name
-import pathlib
 import tempfile
 from bs4 import BeautifulSoup
 

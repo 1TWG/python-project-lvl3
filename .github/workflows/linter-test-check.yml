@@ -19,6 +19,7 @@ jobs:
           pip install flake8
           pip install pytest
           pip install pytest-cov
+          pip install beautifulsoup4
           make install
       - name: Lint with flake8
         run: |
