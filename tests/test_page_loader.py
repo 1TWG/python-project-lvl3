@@ -52,8 +52,8 @@ def test_make_name():
                   'snipp-ru-style.css']
     test_urls = ['https://snipp.ru/demo/76/index.html',
                  'https://snipp.ru/logo.png',
-                 'https://snipp.ru//demo/76/Yamaha-1.jpg',
-                 'https://snipp.ru//demo/76/Yamaha-2.svg',
+                 'https://snipp.ru/demo/76/Yamaha-1.jpg',
+                 'https://snipp.ru/demo/76/Yamaha-2.svg',
                  'https://snipp.ru/style.css']
     resul_names = [make_name(i) for i in test_urls]
     assert resul_names == test_names
