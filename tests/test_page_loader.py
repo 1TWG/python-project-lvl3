@@ -47,7 +47,7 @@ def test_make_output_html_files():
 def test_make_name():
     test_names = ['snipp-ru-demo-76-index.html',
                   'snipp-ru-logo.png',
-                  'snipp-ru-demo-76-Yamaha-1.png',
+                  'snipp-ru-demo-76-Yamaha-1.jpg',
                   'snipp-ru-demo-76-Yamaha-2.png',
                   'snipp-ru-style.css']
     test_urls = ['https://snipp.ru/demo/76/index.html',

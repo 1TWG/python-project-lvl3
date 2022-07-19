@@ -46,10 +46,9 @@ def make_change(soup, name_of_output_dir, url_string):
     change_array = img_array + link_array + script_array
     change_obj = {}
     for i in change_array:
-        download_url = (domain + i).replace('//','/').replace(':/','://')
+        download_url = (domain + i).replace('//', '/').replace(':/', '://')
         change_obj[i] = [name_of_output_dir + '/' + make_name(domain + i),
                          download_url]
-        print(download_url)
     return change_obj
 
 
@@ -72,7 +71,7 @@ def make_name(url_string, dir=False):
             result_name += i
         else:
             result_name += ' '
-    result_name = result_name.replace('svg', 'png').replace('jpg', 'png')
+    result_name = result_name.replace('svg', 'png')
     result_name_array = result_name.split()
     result_name_array.remove('https')
     if result_name_array[-1] not in 'html, css, jpg, png, svg, js':
