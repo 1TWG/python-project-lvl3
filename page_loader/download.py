@@ -90,7 +90,7 @@ def make_output_html(soup, change_obj):
     for i in change_obj:
         output_html = output_html.replace(change_obj[i][1], change_obj[i][0]) \
             .replace(i, change_obj[i][0])
-    return BeautifulSoup(output_html, 'html.parser').prettify()
+    return BeautifulSoup(output_html, 'html.parser').prettify(formatter="html5")
 
 
 def make_dir_and_img(output_path, dir_name, change_obj):
