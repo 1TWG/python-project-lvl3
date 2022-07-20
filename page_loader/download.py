@@ -73,7 +73,8 @@ def make_name(url_string, dir=False):
             result_name += ' '
     result_name = result_name.replace('svg', 'png')
     result_name_array = result_name.split()
-    result_name_array.remove('https')
+    schem = [x for x in result_name_array if 'http' in x][0]
+    result_name_array.remove(schem)
     if result_name_array[-1] not in 'html, css, jpg, png, svg, js':
         result_name_array.append('html')
     if dir:
