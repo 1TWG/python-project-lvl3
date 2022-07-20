@@ -12,7 +12,7 @@ def main():
     try:
         file_path = download(args.URL, args.output)
         print('\n', file_path)
-    except KnownError as e:
+    except KnownError:
         logger.debug('KnownError')
         sys.exit(1)
     else:
