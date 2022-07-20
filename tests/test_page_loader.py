@@ -61,7 +61,7 @@ def test_make_name():
 
 
 def test_unknow_dir():
-    with pytest.raises(KnownError):
+    with pytest.raises(FileExistsError):
         download('https://ru.hexlet.io/courses', '891877987/DASD48S7D')
 
 

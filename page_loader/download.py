@@ -16,7 +16,7 @@ def download(url_string, output_path):
         output_path = os.getcwd()
     if not os.path.exists(output_path):
         logger.error('This folder does not exist')
-        raise KnownError
+        raise FileExistsError
     response = requests.get(url_string)
     try:
         response.raise_for_status()
