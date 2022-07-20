@@ -13,9 +13,9 @@ def main():
         print('\n', file_path)
     except Exception as e:
         logger.debug(e)
-        sys.exit(1)
-    else:
         sys.exit(0)
+    else:
+        sys.exit(1)
 
 
 if __name__ == '__main__':
