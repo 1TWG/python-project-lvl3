@@ -23,7 +23,7 @@ test-coverage:
 	poetry run pytest --cov=page_loader --cov-report xml
 
 page-loader:
-	poetry run page-loader https://snipp.ru/demo/76/index.html
+	poetry run page-loader https://snipp.ru/demo/76/index.html1
 
 tpage-loader:
 	poetry run page-loader https://ru.hexlet.io/courses
