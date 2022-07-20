@@ -10,10 +10,12 @@ def main():
     args = parsing_cli()
     try:
         file_path = download(args.URL, args.output)
+        print('\n', file_path)
     except Exception as e:
         logger.debug(e)
         sys.exit(1)
-    print('\n', file_path)
+    else:
+        sys.exit(0)
 
 
 if __name__ == '__main__':
