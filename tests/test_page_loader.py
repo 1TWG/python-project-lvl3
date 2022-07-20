@@ -28,7 +28,7 @@ def test_make_output_html_images():
         change_images = make_change(before_soup, 'ru-hexlet-io-courses_files', 'https://ru.hexlet.io/courses')
         output_html = make_output_html(before_soup, change_images)
         assert after_soup.title == before_soup.title
-        assert after_soup.prettify() == output_html
+        assert after_soup == output_html
 
 
 def test_make_output_html_files():
@@ -41,7 +41,7 @@ def test_make_output_html_files():
         change_images = make_change(before_soup, 'ru-hexlet-io-courses_files', 'https://ru.hexlet.io/courses')
         output_html = make_output_html(before_soup, change_images)
         assert after_soup.title == before_soup.title
-        assert after_soup.prettify() == output_html
+        assert after_soup == output_html
 
 
 def test_make_name():

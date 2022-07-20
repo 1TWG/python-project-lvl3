@@ -30,10 +30,10 @@ def download(url_string, output_path):
     name_of_output_file = output_path + '/' + make_name(url_string)
     soup = BeautifulSoup(response.text, 'html.parser')
     change_obj = make_change(soup, make_name(url_string, True), url_string)
-    output_html = make_output_html(soup, change_obj)
+    output_html = make_output_html(response.text, change_obj)
     make_dir_and_img(output_path, make_name(url_string, True), change_obj)
     with open(name_of_output_file, 'w') as out_file:
-        out_file.write(output_html)
+        out_file.write(output_html.prettify())
     return name_of_output_file
 
 
@@ -90,7 +90,7 @@ def make_output_html(soup, change_obj):
     for i in change_obj:
         output_html = output_html.replace(change_obj[i][1], change_obj[i][0]) \
             .replace(i, change_obj[i][0])
-    return BeautifulSoup(output_html, 'html.parser').prettify()
+    return BeautifulSoup(output_html, 'html.parser')
 
 
 def make_dir_and_img(output_path, dir_name, change_obj):
