@@ -30,11 +30,11 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 
 [[package]]
 name = "beautifulsoup4"
-version = "4.11.1"
+version = "4.10.0"
 description = "Screen-scraping library"
 category = "main"
 optional = false
-python-versions = ">=3.6.0"
+python-versions = ">3.0.0"
 
 [package.dependencies]
 soupsieve = ">1.2"
@@ -281,7 +281,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "cb193315966cce8b0271716665084e765579bf8d4a675098cea8338b67b2f34e"
+content-hash = "183d7b3e511058202c5447b3fce53ef7311c0435a75c0e41e19e64a1fc5b8b2c"
 
 [metadata.files]
 argparse = [
