@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Aleksandr Kirillov <tegos_9898@mail.ru>"]
 packages = [
-  { include = "page_loader" },
+    { include = "page_loader" },
 ]
 
 [tool.poetry.dependencies]
@@ -13,8 +13,8 @@ argparse = "^1.4.0"
 requests = "^2.28.1"
 progress = "^1.6"
 pytest-cov = "^3.0.0"
-flake8 = "4.0.1"
 beautifulsoup4 = "4.10"
+flake8 = "^4.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

@@ -11,7 +11,7 @@ publish:
 	poetry publish --dry-run
 
 package-install:
-	pip install --user dist/*.whl
+	python3 -m pip install --user --force-reinstall dist/*.whl
 
 lint:
 	poetry run flake8 page_loader
@@ -23,7 +23,7 @@ test-coverage:
 	poetry run pytest --cov=page_loader --cov-report xml
 
 page-loader:
-	poetry run page-loader https://snipp.ru/demo/76/index.html1
+	poetry run page-loader https://snipp.ru/demo/76/index.html
 
 tpage-loader:
 	poetry run page-loader https://ru.hexlet.io/courses
